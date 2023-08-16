@@ -327,3 +327,33 @@ class Structure:
         for name, t in cls._fields:
             result.append(t.unpack(bytesio))
         return cls(*result)
+
+
+class RequestHeader0(Structure):
+    request_api_key = INT16
+    request_api_version = INT16
+    correlation_id = INT32
+
+
+class RequestHeader1(Structure):
+    request_api_key = INT16
+    request_api_version = INT16
+    correlation_id = INT32
+    client_id = NULLABLE_STRING
+
+
+class RequestHeader2(Structure):
+    request_api_key = INT16
+    request_api_version = INT16
+    correlation_id = INT32
+    client_id = NULLABLE_STRING
+    _tagged_fields = TAG_BUFFER
+
+
+class ResponseHeader0(Structure):
+    correlation_id = INT32
+
+
+class ResponseHeader1(Structure):
+    correlation_id = INT32
+    _tagged_fields = TAG_BUFFER
