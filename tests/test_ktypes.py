@@ -1,5 +1,7 @@
 from io import BytesIO
 
+import pytest
+
 from kafkaprotocol.ktypes import *
 
 
@@ -37,3 +39,15 @@ def test_compact_nullable():
     roundtrip(COMPACT_NULLABLE_STRING, None)
     roundtrip(COMPACT_NULLABLE_STRING, "1234567890")
     roundtrip(COMPACT_NULLABLE_STRING, "1234567890" * 26)
+
+
+def test_nonnull():
+    with pytest.raises(ValueError):
+        STRING.pack(None)
+    with pytest.raises(ValueError):
+        STRING.unpack(BytesIO(NULLABLE_STRING.pack(None)))
+
+    with pytest.raises(ValueError):
+        BYTES.pack(None)
+    with pytest.raises(ValueError):
+        BYTES.unpack(BytesIO(NULLABLE_BYTES.pack(None)))
